@@ -28,7 +28,8 @@ CREATE TABLE group_instance
   CONSTRAINT group_instance_pk PRIMARY KEY (id),
   CONSTRAINT group_fk_instance FOREIGN KEY (group_id)
       REFERENCES "group" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      CONSTRAINT name_unique UNIQUE (name)
 )
 WITH (
   OIDS=FALSE

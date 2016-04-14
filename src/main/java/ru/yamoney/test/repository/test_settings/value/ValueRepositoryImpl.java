@@ -3,9 +3,7 @@ package ru.yamoney.test.repository.test_settings.value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
-import ru.yamoney.test.entity.Parameter;
 import ru.yamoney.test.entity.ParameterValue;
-import ru.yamoney.test.repository.test_settings.FetchByInstanceRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

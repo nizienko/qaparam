@@ -14,6 +14,7 @@ public interface TestSettingService {
     List<GroupInstance> getGroupInstances(long groupId);
     void addGroupInstance(long groupId, String name, String description);
     List<KeyValue> getParametersMap(long instanceId, String filter);
+    List<KeyValue> getParametersMapByName(String name, String filter);
     void setParameter(long instanceId, long parameterId, String value);
     void addParameter(long groupId, String name, String description);
 }

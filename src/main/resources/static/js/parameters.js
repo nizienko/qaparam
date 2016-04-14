@@ -53,8 +53,8 @@ var chooseParams = function(instanceId) {
         url: '/parameters/' + instanceId,
         data: {'filter':filter},
         success: function (response) {
-            var html = "<table id='parameters_table' instanceId=" + instanceId + " class='pure-table'>" +
-            "<thead><tr><th><input onchange=chooseParams(" + instanceId + ") size=30 id='parameter_filter' type='text' value='" + filter + "'></th><th></th><th>" + iName + "</th></tr></thead>";
+            var html = "<table width='100%' id='parameters_table' instanceId=" + instanceId + " class='pure-table'>" +
+            "<thead><tr><th><input onchange=chooseParams(" + instanceId + ") size=30 id='parameter_filter' type='text' value='" + filter + "'></th><th></th><th></th><th>" + iName + "</th></tr></thead>";
             $.each(response.data, function (i) {
                 var value = "";
                 var parameterId = response.data[i].parameter.id;
@@ -67,10 +67,9 @@ var chooseParams = function(instanceId) {
                     description =  response.data[i].parameter.description;
                 }
                 var name = response.data[i].parameter.name;
-                html = html + "<tr><td>" + name + "</td><td>"+
-                "<a onclick=editParam(" + instanceId + "," + parameterId + ")>#</a> <div id='i_" +
+                html = html + "<tr><td>" + name + "</td><td><div id='i_" +
                 instanceId + "_p_" + parameterId + "'>" + value + "</div></td>" +
-                "<td>" + description + "</td></tr>";
+                "<td><a onclick=editParam(" + instanceId + "," + parameterId + ")>#</a></td><td>" + description + "</td></tr>";
             });
             html = html + "</table>";
             $('#parameters').html(html);

@@ -3,9 +3,8 @@ package ru.yamoney.test.repository.test_settings.group_instance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yamoney.test.entity.GroupInstance;
-import ru.yamoney.test.entity.Parameter;
-import ru.yamoney.test.repository.test_settings.FetchByGroupRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,8 +13,8 @@ import java.util.List;
 /**
  * Created by def on 15.02.16.
  */
-@org.springframework.stereotype.Repository("groupInstanceRepository")
-public class GroupInstanceRepositoryImpl implements FetchByGroupRepository<GroupInstance> {
+@Repository("groupInstanceRepository")
+public class GroupInstanceRepositoryImpl implements GroupInstanceRepository<GroupInstance> {
     @Autowired
     protected JdbcOperations jdbcOperations;
 
@@ -24,6 +23,11 @@ public class GroupInstanceRepositoryImpl implements FetchByGroupRepository<Group
         return jdbcOperations.query("SELECT id, name, group_id, description\n" +
                 "  FROM group_instance where group_id=?;", new Object[]{groupId}, new GroupInstanceRowMapper());
     }
+
+    @Override
+    public GroupInstance fetchByGroupInstanceName(String name) {
+        return jdbcOperations.queryForObject("SELECT id, name, group_id, description\n" +
+                "  FROM group_instance where name=?;", new Object[]{name}, new GroupInstanceRowMapper());    }
 
     @Override
     public void insert(GroupInstance data) {

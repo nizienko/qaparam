@@ -116,4 +116,17 @@ public class TestSettingController extends ExceptionHandlerController {
             throw new RestException(e);
         }
     }
+
+    @RequestMapping(value = "/parameters/name/{name}", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> getParametersByName(@PathVariable("name") String name,
+                                      @RequestParam(value = "filter", required = false) String filter) throws RestException {
+        try {
+            LOG.info("Incoming name: " + name);
+            return Ajax.successResponse(testSettingService.getParametersMapByName(name, filter));
+        } catch (Exception e) {
+            throw new RestException(e);
+
+        }
+    }
 }

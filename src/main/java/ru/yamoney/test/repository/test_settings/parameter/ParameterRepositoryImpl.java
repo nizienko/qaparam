@@ -3,8 +3,8 @@ package ru.yamoney.test.repository.test_settings.parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yamoney.test.entity.Parameter;
-import ru.yamoney.test.repository.test_settings.FetchByGroupRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Created by def on 14.02.16.
  */
-@org.springframework.stereotype.Repository("parameterRepository")
-public class ParameterRepositoryImpl implements FetchByGroupRepository<Parameter> {
+@Repository("parameterRepository")
+public class ParameterRepositoryImpl implements ParameterRepository<Parameter> {
 
     @Autowired
     protected JdbcOperations jdbcOperations;
@@ -23,6 +23,12 @@ public class ParameterRepositoryImpl implements FetchByGroupRepository<Parameter
     public List<Parameter> fetchByGroupId(long groupId) {
         return jdbcOperations.query("SELECT id, group_id, name, description\n" +
                 "  FROM parameter where group_id=?;", new Object[]{groupId}, new ParameterRowMapper());
+    }
+
+    @Override
+    public List<Parameter> fetchByGroupName(String name) {
+        return jdbcOperations.query("SELECT id, group_id, name, description\n" +
+                "  FROM parameter where name=?;", new Object[]{name}, new ParameterRowMapper());
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.yamoney.test.repository.test_settings.group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yamoney.test.entity.Group;
 import ru.yamoney.test.repository.CommonRepository;
 
@@ -14,8 +15,8 @@ import java.util.List;
 /**
  * Created by def on 14.02.16.
  */
-@org.springframework.stereotype.Repository("groupRepository")
-public class GroupRepositoryImpl implements CommonRepository<Group> {
+@Repository("groupRepository")
+public class GroupRepositoryImpl implements GroupRepository<Group> {
     @Autowired
     protected JdbcOperations jdbcOperations;
 

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.yamoney.test.entity.*;
-import ru.yamoney.test.repository.CommonRepository;
-import ru.yamoney.test.repository.test_settings.FetchByGroupRepository;
-import ru.yamoney.test.repository.test_settings.FetchByInstanceRepository;
+import ru.yamoney.test.repository.test_settings.group.GroupRepository;
+import ru.yamoney.test.repository.test_settings.group_instance.GroupInstanceRepository;
+import ru.yamoney.test.repository.test_settings.parameter.ParameterRepository;
 import ru.yamoney.test.repository.test_settings.value.ValueRepository;
 
 import java.util.ArrayList;
@@ -26,15 +26,15 @@ public class TestSettingServiceImpl implements TestSettingService {
 
     @Autowired
     @Qualifier("groupRepository")
-    private CommonRepository groupRepository;
+    private GroupRepository groupRepository;
 
     @Autowired
     @Qualifier("groupInstanceRepository")
-    private FetchByGroupRepository groupInstanceRepository;
+    private GroupInstanceRepository groupInstanceRepository;
 
     @Autowired
     @Qualifier("parameterRepository")
-    private FetchByGroupRepository parameterRepository;
+    private ParameterRepository parameterRepository;
 
     @Autowired
     @Qualifier("valueRepository")
@@ -65,6 +65,20 @@ public class TestSettingServiceImpl implements TestSettingService {
         GroupInstance instance = (GroupInstance) groupInstanceRepository.fetchById(instanceId);
         List<Parameter> parameters = parameterRepository.fetchByGroupId(instance.getGroupId());
         List<ParameterValue> values = valueRepository.fetchByInstanceId(instanceId);
+        Map<Long, ParameterValue> valuesMap = new HashMap<>();
+        values.stream().forEach((ParameterValue p) -> valuesMap.put(p.getParameterId(), p));
+        List<KeyValue> result = new ArrayList<>();
+        parameters.stream()
+                .filter((Parameter p) -> filter == null || p.getName().contains(filter))
+                .forEach((Parameter p) -> result.add(new KeyValue<>(p, valuesMap.get(p.getId()))));
+        return result;
+    }
+
+    @Override
+    public List<KeyValue> getParametersMapByName(String name, String filter) {
+        GroupInstance instance = (GroupInstance) groupInstanceRepository.fetchByGroupInstanceName(name);
+        List<Parameter> parameters = parameterRepository.fetchByGroupId(instance.getGroupId());
+        List<ParameterValue> values = valueRepository.fetchByInstanceId(instance.getId());
         Map<Long, ParameterValue> valuesMap = new HashMap<>();
         values.stream().forEach((ParameterValue p) -> valuesMap.put(p.getParameterId(), p));
         List<KeyValue> result = new ArrayList<>();
