@@ -1,9 +1,5 @@
 package ru.yamoney.test.entity;
 
-import ru.yamoney.test.entity.DomainObject;
-import ru.yamoney.test.entity.Parameter;
-import ru.yamoney.test.entity.ParameterValue;
-
 /**
  * Created by def on 16.02.16.
  */

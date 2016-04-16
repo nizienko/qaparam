@@ -66,11 +66,11 @@ public class TestSettingServiceImpl implements TestSettingService {
         List<Parameter> parameters = parameterRepository.fetchByGroupId(instance.getGroupId());
         List<ParameterValue> values = valueRepository.fetchByInstanceId(instanceId);
         Map<Long, ParameterValue> valuesMap = new HashMap<>();
-        values.stream().forEach((ParameterValue p) -> valuesMap.put(p.getParameterId(), p));
+        values.stream().forEach(p -> valuesMap.put(p.getParameterId(), p));
         List<KeyValue> result = new ArrayList<>();
         parameters.stream()
-                .filter((Parameter p) -> filter == null || p.getName().contains(filter))
-                .forEach((Parameter p) -> result.add(new KeyValue<>(p, valuesMap.get(p.getId()))));
+                .filter(p -> filter == null || p.getName().contains(filter))
+                .forEach(p -> result.add(new KeyValue<>(p, valuesMap.get(p.getId()))));
         return result;
     }
 
@@ -80,11 +80,11 @@ public class TestSettingServiceImpl implements TestSettingService {
         List<Parameter> parameters = parameterRepository.fetchByGroupId(instance.getGroupId());
         List<ParameterValue> values = valueRepository.fetchByInstanceId(instance.getId());
         Map<Long, ParameterValue> valuesMap = new HashMap<>();
-        values.stream().forEach((ParameterValue p) -> valuesMap.put(p.getParameterId(), p));
+        values.stream().forEach(p -> valuesMap.put(p.getParameterId(), p));
         List<KeyValue> result = new ArrayList<>();
         parameters.stream()
-                .filter((Parameter p) -> filter == null || p.getName().contains(filter))
-                .forEach((Parameter p) -> result.add(new KeyValue<>(p, valuesMap.get(p.getId()))));
+                .filter(p -> filter == null || p.getName().contains(filter))
+                .forEach(p -> result.add(new KeyValue<>(p.getName(), valuesMap.get(p.getId()).getValue())));
         return result;
     }
 
